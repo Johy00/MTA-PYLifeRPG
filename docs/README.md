@@ -1,4 +1,4 @@
-# Widok architektury
+# Architektura
 
 ![architecture overview](img/architecture_overview.png)
 
@@ -38,3 +38,33 @@ Oprócz ww. elementów istnieje jeszcze kilka innych, które są poza scope tego
 Przy rozważaniu wdrożenia tych usług dla siebie warto rozważyć wykorzystanie rozwiązań zarządzanych oferowanych np. przez Amazon Web Services lub inne firmy. Ilość czynności związanych z zarządzaniem, aktualizowaniem, monitorowaniem serwerów pocztowych, serwerów bazodanowych, serwerów replikacyjnch, usługami backupu może być większa niż ilość czynności związanych z rozwojem kodu.
 
 Przy wyborze hostingu dla serwera gier od lat polecamy usługi [ServerProject](https://serverproject.pl/). Uruchomienie ww. usług wymagało zaangażowania kilku dodatkowych serwerów fizycznych i teoretycznie było możliwe uruchomienie na nich również serwera MTA. Jednak jakość usług oferowanych przez SP, profesjonalne podejście i niskie czasy reakcji na ewentualne incydenty czy zgłoszenia supportowe przekonały nas że warto powierzyć hosting MTA właśnie firmie ServerProject.
+
+# Kod
+
+## Rozwój kodu
+
+Kod był i jest rozwijany w sposób bazarowy, tj. tak jak opisano w eseju ESR [Katedra i Bazar](http://www.mkgajwer.jgora.net/katedra.html). Zachęcamy każdego do zapoznania się z tym sposobem tworzenia oprogramowania.
+Podejście bazarowe pozwala tworzyć kod dla siebie, do realizacji własnych celów. Podejście te jest też zwyczajnie tańsze, szczególnie jeśli nie jesteśmy nastawieni na zysk. Tworząc kod serwera w takim modelu możemy zaczynać od małego modelu i stopniowo go rozbudowywać.
+
+## Automaty skończone
+
+W wielu zasobach można spotkać konstrukcję automatu skończonego (FSM - Finite State Machines).
+```
+local vg={} -- fsm
+vg.STANY={"PATROLUJ","ZLOKALIZUJ","SLEDZ","SERWIS"}
+vg.STANYDESC={
+  ["PATROLUJ"]="Patroluj mapę i czekaj na wyznaczenie celu.",
+  ["ZLOKALIZUJ"]="Zlokalizuj oznaczony cel.",
+  ["SLEDZ"]="Rozpocznij obserwację i/lub śledzenie celu.",
+  ["SERWIS"]="Uzupełnij poziom paliwa i/lub napraw helikopter",
+}
+vg.brain=function() ...
+```
+
+Automaty skończone są bardzo eleganckim sposobem zapisu stanu mechanizmu, szczególnie przydatnym w grach komputerowych. Automat ma ograniczoną, stałą ilość stanów i jasne warunki przejścia pomiędzy nimi. W każdej chwili można jasno określić w jakim jest stanie i do jakich stanów (i pod jakimi warunkami) może przejść. Pozwala to m.in. uniknąć sytuacji niezdefiniowanych, błędów z tym związanych a także gąszczu ifologii która jest zwyczajnie trudna do czytania i debugowania.
+
+Więcej o automatach stanowych: 
+- https://pl.wikipedia.org/wiki/Automat_sko%C5%84czony
+- https://gamedevelopment.tutsplus.com/tutorials/finite-state-machines-theory-and-implementation--gamedev-11867
+
+

@@ -24,4 +24,17 @@ Wykorzystanie jednego z powyższych, obu lub nawet żadnego zależne jest od kon
 
 Na uwadze należy mieć, że interfejs REST API Postgrest jest mniej elastyczny niż bezpośredni dostęp do bazy danych. Wykonywanie skomplikowanych zapytań, składających się np. z łączeń albo subselectów jest trudne lub niemożliwe. Należy to obchodzić za pomocą widoków (które w definicji zawierają podane łączenia) lub za pomocą procedur.
 
+## Elementy pominięte
 
+Oprócz ww. elementów istnieje jeszcze kilka innych, które są poza scope tego repozytorium, ale warto o nich nadmienić:
+- serwer WWW z oprogramowaniem forum Invision Power Board
+- trzecia baza danych do forum - znacznie wyższe wymagania niż bazy serwera gier
+- dwa serwery pocztowe - jeden jako smarthost pozwalający na wysyłkę maili na świat, drugi jako pełnoprawne MTA
+- serwery/kontenery do obsługi wymienionych wcześniej komponentów (symmetricds, postgrest, bazy danych) a także mniejszych kontenerów pomocnicznych
+- serwer backup + storage backup
+- [Elastic Stack](https://www.elastic.co/elastic-stack) do agregacji, przetwarzania i przeglądania logów
+- CloudFlare (jakże obowiązkowy przy obecnej scenie MTA).
+
+Przy rozważaniu wdrożenia tych usług dla siebie warto rozważyć wykorzystanie rozwiązań zarządzanych oferowanych np. przez Amazon Web Services lub inne firmy. Ilość czynności związanych z zarządzaniem, aktualizowaniem, monitorowaniem serwerów pocztowych, serwerów bazodanowych, serwerów replikacyjnch, usługami backupu może być większa niż ilość czynności związanych z rozwojem kodu.
+
+Przy wyborze hostingu dla serwera gier od lat polecamy usługi [ServerProject](https://serverproject.pl/). Uruchomienie ww. usług wymagało zaangażowania kilku dodatkowych serwerów fizycznych i teoretycznie było możliwe uruchomienie na nich również serwera MTA. Jednak jakość usług oferowanych przez SP, profesjonalne podejście i niskie czasy reakcji na ewentualne incydenty czy zgłoszenia supportowe przekonały nas że warto powierzyć hosting MTA właśnie firmie ServerProject.
